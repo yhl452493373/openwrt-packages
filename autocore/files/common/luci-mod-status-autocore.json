@@ -1,8 +1,8 @@
- ​{ 
- ​        ​"luci-mod-status-autocore"​: { 
+{ 
+ ​        ​"luci-mod-status-autocore"​: {
  ​                ​"description"​: ​"​Grant access to autocore​"​, 
- ​                ​"read"​: { 
- ​                        ​"ubus"​: { 
+ ​                ​"read"​: {
+ ​                        ​"ubus"​: {
  ​                                ​"luci"​: [ ​"​getCPUInfo​"​, ​"​getEthInfo​"​, ​"​getUserInfo​"​ ​] 
  ​                        } 
  ​                } 
