@@ -1,3 +1,3 @@
 # 适用于openwrt的autocore
 
-## 代码为[https://github.com/immortalwrt/immortalwrt/tree/master/package/emortal](https://github.com/immortalwrt/immortalwrt/tree/master/package/emortal)里面的autocore
+## 代码为[https://github.com/kiddin9/openwrt-packages](https://github.com/kiddin9/openwrt-packages)里面的my-autocore，将其改名为autocore，并删除了 disc_status.htm 和 nvme_status.htm
