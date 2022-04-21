@@ -55,8 +55,8 @@ endef
 
 define Package/common/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(INSTALL_BIN) ./files/common/101-luci-mod-status-autocore $(1)/etc/uci-defaults/
-	$(INSTALL_DATA) ./files/common/101-luci-mod-status-autocore.txt $(1)/etc/uci-defaults/
+	$(INSTALL_BIN) ./files/common/29-luci-mod-status-autocore $(1)/etc/uci-defaults/
+	$(INSTALL_DATA) ./files/common/29-luci-mod-status-autocore.txt $(1)/etc/uci-defaults/
 
 	$(INSTALL_DIR) $(1)/usr/share/rpcd/acl.d
 	$(INSTALL_DATA) ./files/common/luci-mod-status-autocore.json $(1)/usr/share/rpcd/acl.d/
