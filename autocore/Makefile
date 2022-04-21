@@ -50,15 +50,16 @@ define Build/Prepare
 endef
 
 define Build/Compile
+
+endef
+
+define Package/common/install
  ​        ​$(​INSTALL_DIR​)​ ​$(​1​)​/usr/share/rpcd/acl.d
  ​        ​$(​INSTALL_DATA)​ ./files/common/luci-mod-status-autocore.json ​$(​1​)​/usr/share/rpcd/acl.d/
 endef
 
-define Package/common/install
-
-endef
-
 define Package/autocore-arm/install
+ ​       $(​call​ Package/common/install,​$(​1​)​)
 	$(INSTALL_DIR) $(1)/sbin
 	$(INSTALL_BIN) $(DL_DIR)/cpuinfo $(1)/sbin/cpuinfo
 	$(INSTALL_BIN) ./files/common/ethinfo $(1)/sbin/ethinfo
@@ -67,6 +68,7 @@ define Package/autocore-arm/install
 endef
 
 define Package/autocore-x86/install
+        $(​call​ Package/common/install,​$(​1​)​)
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/x86/autocore $(1)/etc/init.d/autocore
 	$(INSTALL_DIR) $(1)/sbin
@@ -77,6 +79,5 @@ define Package/autocore-x86/install
 endef
 
 $(eval $(call Download,cpuinfo))
-$(eval $(​call​ BuildPackage,common​))
 $(eval $(call BuildPackage,autocore-arm))
 $(eval $(call BuildPackage,autocore-x86))
