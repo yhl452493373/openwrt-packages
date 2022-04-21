@@ -14,39 +14,39 @@ PKG_RELEASE:=7
 include $(INCLUDE_DIR)/package.mk
 
 define Package/autocore-arm
-  SECTION:=libs
-  CATEGORY:=Libraries
-  TITLE:=ARM auto core script.
-  MAINTAINER:=CN_SZTL
-  DEPENDS:=@(arm||aarch64) \
-    +TARGET_bcm27xx:bcm27xx-userland \
-    +TARGET_bcm53xx:nvram \
-    +ethtool
-  VARIANT:=arm
+	SECTION:=libs
+	CATEGORY:=Libraries
+	TITLE:=ARM auto core script.
+	MAINTAINER:=CN_SZTL
+	DEPENDS:=@(arm||aarch64) \
+	+TARGET_bcm27xx:bcm27xx-userland \
+	+TARGET_bcm53xx:nvram \
+	+ethtool
+	VARIANT:=arm
 endef
 
 define Package/autocore-x86
-  SECTION:=libs
-  CATEGORY:=Libraries
-  TITLE:=x86/x64 auto core loadbalance script.
-  MAINTAINER:=Lean / CN_SZTL
-  DEPENDS:=@TARGET_x86 +bc +lm-sensors +ethtool
-  VARIANT:=x86
+	SECTION:=libs
+	CATEGORY:=Libraries
+	TITLE:=x86/x64 auto core loadbalance script.
+	MAINTAINER:=Lean / CN_SZTL
+	DEPENDS:=@TARGET_x86 +bc +lm-sensors +ethtool
+	VARIANT:=x86
 endef
 
 define Package/autocore-arm/description
-  Display more details info about the devices in LuCI.
+	Display more details info about the devices in LuCI.
 endef
 
 define Download/cpuinfo
-  URL:=https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/package/emortal/autocore/files/generic
-  URL_FILE:=cpuinfo
-  FILE:=cpuinfo
-  HASH:=skip
+	URL:=https://raw.githubusercontent.com/immortalwrt/immortalwrt/master/package/emortal/autocore/files/generic
+	URL_FILE:=cpuinfo
+	FILE:=cpuinfo
+	HASH:=skip
 endef
 
 define Build/Prepare
-    sed -i 's/cpu_arch="?"/cpu_arch="ARMv8 Processor"/' $(DL_DIR)/cpuinfo
+	sed -i 's/cpu_arch="?"/cpu_arch="ARMv8 Processor"/' $(DL_DIR)/cpuinfo
 endef
 
 define Build/Compile
@@ -57,28 +57,44 @@ define Package/common/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_BIN) ./files/common/101-luci-mod-status-autocore $(1)/etc/uci-defaults/
 	$(INSTALL_DATA) ./files/common/101-luci-mod-status-autocore.txt $(1)/etc/uci-defaults/
- 	$(INSTALL_DIR) $(1)/usr/share/rpcd/acl.d
+
+	$(INSTALL_DIR) $(1)/usr/share/rpcd/acl.d
 	$(INSTALL_DATA) ./files/common/luci-mod-status-autocore.json $(1)/usr/share/rpcd/acl.d/
+
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
+	po2lmo ./po/zh_Hans/autocore.po $(1)/usr/lib/lua/luci/i18n/autocore.zh-cn.lmo
 endef
 
 define Package/autocore-arm/install
 	$(call Package/common/install,$(1))
-    $(INSTALL_DIR) $(1)/sbin
-    $(INSTALL_BIN) $(DL_DIR)/cpuinfo $(1)/sbin/cpuinfo
-    $(INSTALL_BIN) ./files/common/ethinfo $(1)/sbin/ethinfo
-    $(INSTALL_DIR) $(1)/www/luci-static/resources/view/status/include
-    $(INSTALL_DATA) ./files/common/29_eth.js $(1)/www/luci-static/resources/view/status/include/
+
+	$(INSTALL_DIR) $(1)/sbin
+	$(INSTALL_BIN) $(DL_DIR)/cpuinfo $(1)/sbin/cpuinfo
+	$(INSTALL_BIN) ./files/common/ethinfo $(1)/sbin/ethinfo
+
+	$(INSTALL_DIR) $(1)/www/luci-static/resources/view/status/include
+	$(INSTALL_DATA) ./files/common/29_eth.js $(1)/www/luci-static/resources/view/status/include/
+
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/admin_status/index
+	$(INSTALL_DATA) ./files/common/disc_status.htm $(1)/usr/lib/lua/luci/view/admin_status/index/
 endef
 
 define Package/autocore-x86/install
-    $(call Package/common/install,$(1))
-    $(INSTALL_DIR) $(1)/etc/init.d
-    $(INSTALL_BIN) ./files/x86/autocore $(1)/etc/init.d/autocore
-    $(INSTALL_DIR) $(1)/sbin
-    $(INSTALL_BIN) $(DL_DIR)/cpuinfo $(1)/sbin/cpuinfo
-    $(INSTALL_BIN) ./files/common/ethinfo $(1)/sbin/ethinfo
-    $(INSTALL_DIR) $(1)/www/luci-static/resources/view/status/include
-    $(INSTALL_DATA) ./files/common/29_eth.js $(1)/www/luci-static/resources/view/status/include/
+	$(call Package/common/install,$(1))
+
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./files/x86/autocore $(1)/etc/init.d/autocore
+
+	$(INSTALL_DIR) $(1)/sbin
+	$(INSTALL_BIN) $(DL_DIR)/cpuinfo $(1)/sbin/cpuinfo
+	$(INSTALL_BIN) ./files/common/ethinfo $(1)/sbin/ethinfo
+
+	$(INSTALL_DIR) $(1)/www/luci-static/resources/view/status/include
+	$(INSTALL_DATA) ./files/common/29_eth.js $(1)/www/luci-static/resources/view/status/include/
+
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/admin_status/index/
+	$(INSTALL_DATA) ./files/x86/nvme_status.htm $(1)/usr/lib/lua/luci/view/admin_status/index/
+	$(INSTALL_DATA) ./files/common/disc_status.htm $(1)/usr/lib/lua/luci/view/admin_status/index/
 endef
 
 $(eval $(call Download,cpuinfo))
