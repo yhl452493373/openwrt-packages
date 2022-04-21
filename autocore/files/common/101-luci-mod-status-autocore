@@ -1,5 +1,5 @@
 #!/bin/bash
 file=101-luci-mod-status-autocore.txt
 line=$(sed -n "/local methods = {/=" /usr/libexec/rpcd/luci)
-sed -i "" "${line}r ${file}" /usr/libexec/rpcd/luci
+sed -i "${line}r ${file}" /usr/libexec/rpcd/luci
 rm -rf ${file}
