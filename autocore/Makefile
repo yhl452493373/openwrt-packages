@@ -46,7 +46,7 @@ define Download/cpuinfo
 endef
 
 define Build/Prepare
-	sed -i 's/cpu_arch="?"/cpu_arch="ARMv8 Processor"/' $(DL_DIR)/cpuinfo
+    sed -i 's/cpu_arch="?"/cpu_arch="ARMv8 Processor"/' $(DL_DIR)/cpuinfo
 endef
 
 define Build/Compile
@@ -54,31 +54,31 @@ define Build/Compile
 endef
 
 define Package/common/install
- ​       $(​INSTALL_DIR​)​ ​$(​1​)​/etc/uci-defaults 
- ​       ​$(​INSTALL_BIN​)​ ./files/common/101-luci ​$(​1​)​/etc/uci-defaults/
-​        $(​INSTALL_DATA)​ ./files/common/101-luci.txt ​$(​1​)​/etc/uci-defaults/
- ​       ​$(​INSTALL_DIR​)​ ​$(​1​)​/usr/share/rpcd/acl.d
- ​       ​$(​INSTALL_DATA)​ ./files/common/luci-mod-status-autocore.json ​$(​1​)​/usr/share/rpcd/acl.d/
+	$(INSTALL_DIR) $(1)/etc/uci-defaults
+	$(INSTALL_BIN) ./files/common/101-luci-mod-status-autocore $(1)/etc/uci-defaults/
+	$(INSTALL_DATA) ./files/common/101-luci-mod-status-autocore.txt $(1)/etc/uci-defaults/
+ 	$(INSTALL_DIR) $(1)/usr/share/rpcd/acl.d
+	$(INSTALL_DATA) ./files/common/luci-mod-status-autocore.json $(1)/usr/share/rpcd/acl.d/
 endef
 
 define Package/autocore-arm/install
- ​       $(​call​ Package/common/install,​$(​1​)​)
-	$(INSTALL_DIR) $(1)/sbin
-	$(INSTALL_BIN) $(DL_DIR)/cpuinfo $(1)/sbin/cpuinfo
-	$(INSTALL_BIN) ./files/common/ethinfo $(1)/sbin/ethinfo
-	$(INSTALL_DIR) $(1)/www/luci-static/resources/view/status/include
-	$(INSTALL_DATA) ./files/common/29_eth.js $(1)/www/luci-static/resources/view/status/include/
+	$(call Package/common/install,$(1))
+    $(INSTALL_DIR) $(1)/sbin
+    $(INSTALL_BIN) $(DL_DIR)/cpuinfo $(1)/sbin/cpuinfo
+    $(INSTALL_BIN) ./files/common/ethinfo $(1)/sbin/ethinfo
+    $(INSTALL_DIR) $(1)/www/luci-static/resources/view/status/include
+    $(INSTALL_DATA) ./files/common/29_eth.js $(1)/www/luci-static/resources/view/status/include/
 endef
 
 define Package/autocore-x86/install
-        $(​call​ Package/common/install,​$(​1​)​)
-	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./files/x86/autocore $(1)/etc/init.d/autocore
-	$(INSTALL_DIR) $(1)/sbin
-	$(INSTALL_BIN) $(DL_DIR)/cpuinfo $(1)/sbin/cpuinfo
-	$(INSTALL_BIN) ./files/common/ethinfo $(1)/sbin/ethinfo
-	$(INSTALL_DIR) $(1)/www/luci-static/resources/view/status/include
-	$(INSTALL_DATA) ./files/common/29_eth.js $(1)/www/luci-static/resources/view/status/include/
+    $(call Package/common/install,$(1))
+    $(INSTALL_DIR) $(1)/etc/init.d
+    $(INSTALL_BIN) ./files/x86/autocore $(1)/etc/init.d/autocore
+    $(INSTALL_DIR) $(1)/sbin
+    $(INSTALL_BIN) $(DL_DIR)/cpuinfo $(1)/sbin/cpuinfo
+    $(INSTALL_BIN) ./files/common/ethinfo $(1)/sbin/ethinfo
+    $(INSTALL_DIR) $(1)/www/luci-static/resources/view/status/include
+    $(INSTALL_DATA) ./files/common/29_eth.js $(1)/www/luci-static/resources/view/status/include/
 endef
 
 $(eval $(call Download,cpuinfo))
