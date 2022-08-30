@@ -3,7 +3,7 @@
 
 var callEthInfo = rpc.declare({
 	object: 'luci',
-	method: 'getETHInfo'
+	method: 'getEthInfo'
 });
 
 return L.Class.extend({
