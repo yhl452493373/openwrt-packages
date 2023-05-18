@@ -1,17 +1,18 @@
 #
-# Copyright (C) 2008-2014 The LuCI Team <luci@lists.subsignal.org>
+# Copyright (C) 2019 Tony Feng <fengtons@gmail.com>
 #
-# This is free software, licensed under the Apache License, Version 2.0 .
+# This is free software, licensed under the GNU General Public License v3.
+# See /LICENSE for more information.
 #
 
 include $(TOPDIR)/rules.mk
 
-LUCI_TITLE:=LuCI support for KMS
+PKG_VERSION:=1.0.0
+PKG_RELEASE:=1
+LUCI_TITLE:=LuCI Support for Vlmcsd
 LUCI_DEPENDS:=+vlmcsd
-LUCI_PKGARCH:=all
-
-PKG_NAME:=luci-app-vlmcsd
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
 # call BuildPackage - OpenWrt buildroot signature
+
