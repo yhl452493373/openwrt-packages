@@ -1,9 +1,0 @@
-#!/bin/bash
-# 对/usr/libexec/rpcd/luci文件打补丁
-# 在 local methods = { 后增加 29-luci-mod-status-autocore.txt 文件中的内容
-# 否则页面调用getCPUInfo、getEthInfo、getUserInfo会因为没有方法而没有有数据返回
-# 29-luci-mod-status-autocore.txt 中内容不要随意修改，里面的缩进符号为制表符而不是空格
-file=29-luci-mod-status-autocore.txt
-line=$(sed -n "/local methods = {/=" /usr/libexec/rpcd/luci)
-sed -i "${line}r ${file}" /usr/libexec/rpcd/luci
-rm -rf ${file}
